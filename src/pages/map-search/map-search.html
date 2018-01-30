@@ -1,0 +1,11 @@
+<div class="search-head">
+  <div class="s-back" (click)="backToMap()"><i class="iconfont icon-fanhui"></i></div>
+  <div class="s-search">找点什么...</div>
+  <div class="s-text">搜索</div>
+</div>
+<ul class="s-nav">
+  <li *ngFor="let s of searchNav; let i = index" [class.nav-actived]="searchIndex === i" (tap)="changeNav(s)">{{s.tit}}</li>
+</ul>
+<ul class="s-list" *ngIf="sList">
+  <li *ngFor="let l of sList" (click)="toNav(l)"><div class="bar"></div><div class="list-content">{{l?.name}}</div></li>
+</ul>

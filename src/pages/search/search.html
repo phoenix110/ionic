@@ -1,0 +1,43 @@
+<!--
+  Generated template for the SearchPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<div class="actDetail">
+  <div class="adelTit">
+    <div class="searchicon" (tap)="toBack()">
+      <i class="iconfont icon-fanhui"></i>
+    </div>
+    <div class="search" (tap)="search()">
+      <i class="iconfont icon-sousuo"></i>
+      <input type="text" placeholder="找点什么..."/>
+    </div>
+    <div class="searchbtn">搜索</div>
+  </div>
+   <!--nav-->
+   <ul class="placeNav">
+    <li *ngFor="let item of placeNav,let i = index" [class.pActive]=" plaIndex == i" (tap)="changeNav(i)">{{item.tit}}</li>
+  </ul>
+  <!--活动-->
+  <div class="plaIntro" *ngIf="plaIndex==0">
+    <act-navdel></act-navdel>
+  </div>
+  <!--品味-->
+  <ul class="plaAct" *ngIf="plaIndex==1">
+      <li>
+        <see-hear></see-hear>
+      </li>
+  </ul>
+  <!--景点-->
+  <ul class="plaTaste" *ngIf="plaIndex==2">
+    <li><map-landscape></map-landscape></li>
+  </ul>
+  <!--场馆-->
+  <ul class="plaTaste" *ngIf="plaIndex==3">
+    <li>
+      <venue></venue>
+    </li>
+  </ul>
+</div>

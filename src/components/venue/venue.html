@@ -1,0 +1,17 @@
+<!-- Generated template for the VenueComponent component -->
+<div class="place-item" *ngIf='guanzhulist'>
+  <div class="item-left"></div>
+  <div class="item-right">
+    <img [src]="guanzhulist.pic" alt="" (tap)="toplaceDel(guanzhulist.id, guanzhulist.type)">
+    <p class="place-title" (tap)="toplaceDel(guanzhulist.id, guanzhulist.type)">{{guanzhulist.name}}</p>
+    <div class="place-detail"> 
+      <p class="place-detail-item">活动 <i>{{guanzhulist.a_num}}</i></p>
+      <p class="place-detail-item">空间 <i>{{guanzhulist.v_num}}</i></p>
+      <p class="place-detail-item">品味 <i>{{guanzhulist.k_num}}</i></p>
+    </div>
+    <div class="place-gps">
+       
+      <div class="gps-distance"  (tap)='quxiao(guanzhulist.collection_id)' >已关注</div>
+    </div>
+  </div>
+</div>
