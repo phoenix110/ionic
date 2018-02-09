@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import {ReverseDelPage} from "../reverse-del/reverse-del";
 import $ from 'jquery';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import {AppraiseSubmitPage} from "../appraise-submit/appraise-submit";
+
 @Component({
   selector: 'page-reverse',
   templateUrl: 'reverse.html',
@@ -15,7 +16,7 @@ export class ReversePage {
   phoneValue;
   actDel: any = {};
   resDelID;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController,public navParams: NavParams, private httpService: HttpServiceProvider) {
     this.actDel = navParams.data.actdel;
   }
 
@@ -64,9 +65,19 @@ export class ReversePage {
     };
     console.log(postStr);
     if(this.nameValue == '') {
-      alert('用户名不能为空')
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '用户名不能为空',
+        buttons: ['确定']
+      });
+      alert.present();
     }else if (!(/^1[3|4|5|8][0-9]\d{8}$/.test(this.phoneValue))){
-      alert('手机号填写有误');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '手机号填写有误',
+        buttons: ['确定']
+      });
+      alert.present();
     }else{
       console.log('111');
       this.httpService.post(appApis.get_app_data + '?postStr=' + JSON.stringify(postStr),
@@ -79,7 +90,12 @@ export class ReversePage {
             this.isMess = true;
             this.resDelID = error.data.id;
           }else {
-            alert(error.msg);
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: error.msg,
+              buttons: ['确定']
+            });
+            alert.present();
           }
         });
     }

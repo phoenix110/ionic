@@ -160,5 +160,28 @@ page-space-del {
         }
       }
     }
+    .wonderful{
+      width:100%;
+      position: fixed;
+      bottom: 0;
+      height:px2em(160px);
+      overflow: hidden;
+      background: #9e894b;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      p:nth-child(1){
+        color:#262626;
+        font-weight: 600;
+        @include font-dpr(18px);
+        //margin-bottom: px2em(11px);
+      }
+      p:nth-child(2){
+        color:#c6ae68;
+        font-weight: 600;
+        @include font-dpr(13px);
+      }
+    }
   }
 }

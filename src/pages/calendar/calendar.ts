@@ -3,6 +3,8 @@ import $ from 'jquery'
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import {appApis} from "../../providers/apis";
 import {NavController} from "ionic-angular";
+import {ActDetailPage} from "../act-detail/act-detail";
+
 /**
  * Generated class for the CalendarPage page.
  *
@@ -67,6 +69,7 @@ export class CalendarPage implements OnInit{
       },
       error=> {
         console.log(JSON.stringify(error));
+        this.createCalendar();
       })
   }
   // 创建日历
@@ -272,5 +275,9 @@ choose(item) {
   }
   toBack() {
     this.navCtrl.pop();
+  }
+  // 跳转活动详情
+  toActDetail(id){
+    this.navCtrl.push(ActDetailPage,{actid:id});
   }
 }

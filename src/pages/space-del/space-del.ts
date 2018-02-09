@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {PlaceDelPage} from "../place-del/place-del";
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";

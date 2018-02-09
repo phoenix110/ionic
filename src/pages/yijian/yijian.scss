@@ -15,20 +15,22 @@ page-yijian {
         height: px2em(130px);
         display: flex;
         font-weight: 600;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        position: relative;
         background: #272727;
+        padding:0 px2em(50px);
+        box-sizing: border-box;
         i {
             color: #9e894b;
-            position: absolute;
-            left: px2em(50px);
             @include font-dpr(16px);
         }
-    }
-    .redelTit span {
-        color: #9e894b;
-        @include font-dpr(16px);
+        span {
+          color: #9e894b;
+          @include font-dpr(16px);
+        }
+        span:nth-child(3){
+          color:#fff;
+        }
     }
     .yijianbox{
         display: flex;
@@ -46,10 +48,5 @@ page-yijian {
             height: px2em(800px);
             margin-top:px2em(40px);
         }
-    }
-    .save{
-        position: absolute;
-        right: px2em(50px);
-        color: #fff !important;
     }
 }

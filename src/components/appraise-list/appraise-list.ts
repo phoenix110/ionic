@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Generated class for the AppraiseListComponent component.
@@ -11,12 +11,9 @@ import { Component } from '@angular/core';
   templateUrl: 'appraise-list.html'
 })
 export class AppraiseListComponent {
-
-  text: string;
-
+  @Input() appralist;
   constructor() {
-    console.log('Hello AppraiseListComponent Component');
-    this.text = 'Hello World';
+
   }
 
 }

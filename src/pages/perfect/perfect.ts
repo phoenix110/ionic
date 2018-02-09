@@ -1,16 +1,9 @@
-import { Component } from '@angular/core';
-import {ActionSheetController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {Camera, CameraOptions} from "@ionic-native/camera";
-import {ImagePicker, ImagePickerOptions} from "@ionic-native/image-picker";
+import {Component} from '@angular/core';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import $ from 'jquery';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
-/**
- * Generated class for the PerfectPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 @Component({
   selector: 'page-perfect',
@@ -23,7 +16,7 @@ export class PerfectPage {
   nickname;
   sexName;
   birthday;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private httpService: HttpServiceProvider) {
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController,public navParams: NavParams,private httpService: HttpServiceProvider) {
 
   }
   ionViewDidLoad() {
@@ -59,6 +52,7 @@ export class PerfectPage {
       });
   }
   uploadFile($event): void {
+    console.log('event',JSON.stringify($event));
     this.httpService.upload(appApis.upload_app_file,
       $event,
       data => {
@@ -89,10 +83,20 @@ export class PerfectPage {
     this.httpService.get(appApis.get_app_data+ '?postStr='+JSON.stringify(str),
       data => {
         if(data.code == 1){
-            alert(data.msg);
+          let alert = this.alertCtrl.create({
+            title: '提示信息',
+            subTitle: data.msg,
+            buttons: ['确定']
+          });
+          alert.present();
           // this.porPath ="";
         }else{
-            alert( data.msg)
+          let alert = this.alertCtrl.create({
+            title: '提示信息',
+            subTitle: data.msg,
+            buttons: ['确定']
+          });
+          alert.present();
         }
 
       },

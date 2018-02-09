@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import $ from 'jquery';
 import {TasteDelPage} from "../taste-del/taste-del";
 import {appApis} from "../../providers/apis";
@@ -14,12 +14,19 @@ export class TastePage implements OnInit{
   tasteClaID='';
   tasteList:any = [];
   tasteNav: any = [];
+  msg;
+  page: any = {
+    pageIndex: 1,
+    pageSeize: 10,
+    pageTotal: 0
+  };
   constructor(public navCtrl: NavController, public navParams: NavParams,  private httpService: HttpServiceProvider) {
+    this.getTastCla();
+    this.getTastList('','');
 
   }
   ngOnInit(): void {
-    this.getTastCla();
-    this.getTastList('');
+
   }
   /*蒙版分类的隐藏与显示*/
   showMeng(){
@@ -33,7 +40,9 @@ export class TastePage implements OnInit{
   getClassList(id) {
     this.tasteClaID = id;
     this.isNum ++;
-    this.getTastList(id);
+    this.page.pageIndex = 1;
+    this.tasteList = [];
+    this.getTastList(this.tasteClaID,'');
     $('#navTit').css('display','none');
   }
   /*见闻分类列表*/
@@ -43,7 +52,6 @@ export class TastePage implements OnInit{
     };
     this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getStr),
       data => {
-        console.log(data);
         if (data && data.data){
           this.tasteNav = data.data;
           this.tasteNav.unshift({id:'',name:'全部'});
@@ -53,10 +61,18 @@ export class TastePage implements OnInit{
         console.error(error);
       });
   }
+  doInfinite(infiniteScroll){
+    this.getTastList(this.tasteClaID,infiniteScroll);
+  }
   /*见闻列表*/
-  getTastList(tasid){
-    this.tasteList = [];
+  getTastList(tasid,infScroll){
     const getStr = {
+      'sorts':{
+        'sort':'createtime',
+        'order':'asc'
+      },
+      'pagesize': this.page.pageSeize ,
+      'pagenum': this.page.pageIndex,
       'type': '11000',
       'filters':{
         'classifyid':tasid
@@ -64,9 +80,25 @@ export class TastePage implements OnInit{
     };
     this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getStr),
       data => {
-        console.log(data);
-        if (data && data.data){
-          this.tasteList = data.data;
+        if (data && data.data) {
+          if(infScroll){
+            infScroll.complete();
+          }
+          if (this.page.pageIndex == 1) {
+            this.tasteList = data.data;
+          } else {
+            for (let i = 0; i < data.data.length; i++) {
+              if (data.data[i]) {
+                this.tasteList.push(data.data[i]);
+              }
+            }
+          }
+          this.page.pageIndex += 1;
+        }else{
+          if(infScroll){
+            infScroll.enable(false)
+          }
+          this.msg='暂无更多数据'
         }
       },
       error => {

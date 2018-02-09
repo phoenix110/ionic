@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import {appApis} from "../../providers/apis";
-import {MapPage} from "../map/map";
 import {Coordination} from "../../stateStore/log.store";
 import {Store} from "@ngrx/store";
 import {CHOSED_ITEM} from "../../stateStore/action";
+
 /**
  * Generated class for the MapSearchPage page.
  *

@@ -4,7 +4,7 @@ page-nav {
     font-weight: 600 !important;
 }
 .indexcolor {
-    color: #fff !important;
+    color: #272727;
     @include font-dpr(17px);
 }
 .indextext {
@@ -83,6 +83,7 @@ div.body {
     }
     .headright i {
         @include font-dpr(20px);
+        font-weight: normal;
     }
     div.tabs {
         display: flex;
@@ -90,10 +91,8 @@ div.body {
         /* Safari */
         width: 10rem;
         height: px2em(182px) !important;
-         
-      
         background: #9e884c;
-         
+
         div {
             display: flex;
             display: -webkit-flex;
@@ -110,6 +109,9 @@ div.body {
             height: px2em(179px);
             background: #272727;
             margin-top: px2em(3px);
+        }
+        .colo .indexcolor{
+            color: #fff !important;
         }
     }
     div.con {

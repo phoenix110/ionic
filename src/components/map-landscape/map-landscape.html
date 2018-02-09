@@ -4,5 +4,5 @@
     <img src="{{item.pic}}" alt="">
   </div>
  <p class="land-title land-text">{{item.title}}</p>
-  <p class="land-distance land-text">{{item.distance}}km <i class="iconfont icon-daohang" (click)="toNav1(item.coordinates);$event.stopPropagation();" *ngIf="isGps"></i></p>
+  <p class="land-distance land-text">{{distance2 || item.distance}}km <i class="iconfont icon-daohang" (click)="toNav1(item.coordinates);$event.stopPropagation();" *ngIf="isGps"></i></p>
 </div>

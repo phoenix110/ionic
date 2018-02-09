@@ -6,6 +6,7 @@ import $ from 'jquery'
 import {Store} from "@ngrx/store";
 import {Coordination} from "../../stateStore/log.store";
 import {COORD} from "../../stateStore/action";
+import {MapPage} from "../map/map";
 
 /**
  * Generated class for the ScenDelPage page.
@@ -21,6 +22,7 @@ import {COORD} from "../../stateStore/action";
 export class ScenDelPage {
   scenicID:any;
   scenic:any;
+  preSPage:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -33,7 +35,7 @@ export class ScenDelPage {
     this.getScenicDetail();
   }
   ionViewDidEnter() {
-
+    this.preSPage = this.navCtrl.getPrevious().component.name;
   }
   // 获取景点详情
   getScenicDetail() {
@@ -59,8 +61,8 @@ export class ScenDelPage {
   // 设置scenic-body高度
   static setHeight() {
     //根据设备尺寸固定内容高度
-    const div = document.getElementById('scen-body');
-    const tit = document.getElementsByClassName('scen-page-title')[0];
+    // const div = document.getElementById('scen-body');
+    // const tit = document.getElementsByClassName('scen-page-title')[0];
     // div.style.height = document.documentElement.clientHeight - tit.clientHeight + 'px';
     const h = document.documentElement.clientHeight - $('.scen-page-title').clientHeight + 'px';
     $('#scen-body').css('height',h);
@@ -73,5 +75,9 @@ export class ScenDelPage {
   toMap() {
     this.navCtrl.pop();
     this.store.dispatch({type:COORD,payload:this.scenic.coordinates});
+    if(this.preSPage !== 'MapPage'){
+      // alert('未从map页进入跳转');
+      this.navCtrl.push(MapPage,{'mp':true})
+    }
   }
 }

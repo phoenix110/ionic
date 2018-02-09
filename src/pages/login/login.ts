@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { RegistPage } from '../regist/regist';
-import { ForgetPage } from '../forget/forget';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ToastController} from 'ionic-angular';
+import {RegistPage} from '../regist/regist';
+import {ForgetPage} from '../forget/forget';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import {NavPage} from "../nav/nav";
@@ -13,15 +13,32 @@ import {NavPage} from "../nav/nav";
 export class LoginPage {
   phoneValue;
   pwValue;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
-    
+
+  constructor(public navCtrl: NavController,
+              private toastCtrl: ToastController,
+              public navParams: NavParams,
+              private httpService: HttpServiceProvider) {
+
   }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+  }
+
   // 确认登录
   login() {
-    if ( this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.phoneValue ))) {
-      alert('请填写正确的手机号');
+    if (this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test(this.phoneValue))) {
+      let toast = this.toastCtrl.create({
+        message: '请填写正确的手机号',
+        duration: 3000,
+        position: 'middle'
+      });
+
+      toast.onDidDismiss(() => {
+        console.log('Dismissed toast');
+      });
+
+      toast.present();
+
       return;
     }
     const str = {
@@ -34,28 +51,51 @@ export class LoginPage {
     this.httpService.get(appApis.get_app_data + '?getStr=' + JSON.stringify(str),
       data => {
         if (data.code === 1) {
-          alert(data.msg);
-          this.navCtrl.pop();
+          let toast = this.toastCtrl.create({
+            message: data.msg,
+            duration: 3000,
+            position: 'middle'
+          });
+
+          toast.onDidDismiss(() => {
+            console.log('Dismissed toast');
+          });
+          toast.present();
+          this.navCtrl.popToRoot();
           localStorage.setItem('usid', data.data.id);
-          localStorage.setItem('mobile',data.data.mobile)
+          localStorage.setItem('mobile', data.data.mobile)
         }
         if (data.code === 0) {
-          alert(data.msg)
+          let toast = this.toastCtrl.create({
+            message: data.msg,
+            duration: 3000,
+            position: 'middle'
+          });
+
+          toast.onDidDismiss(() => {
+            console.log('Dismissed toast');
+          });
+
+          toast.present();
         }
       },
       error => {
         console.error(error);
       });
   }
-  regist(){
+
+  regist() {
     this.navCtrl.push(RegistPage);
   }
-  wangji(){
+
+  wangji() {
     this.navCtrl.push(ForgetPage);
   }
+
   // 游客模式
   visitor() {
     this.navCtrl.popToRoot();
+    // this.navCtrl.setRoot(NavPage);
   }
-  
+
 }

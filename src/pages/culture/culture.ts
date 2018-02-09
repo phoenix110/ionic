@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {Slides} from 'ionic-angular'
+import {NavController, NavParams, Slides} from 'ionic-angular';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import {TasteDelPage} from "../taste-del/taste-del";
@@ -8,6 +7,8 @@ import {ActDetailPage} from "../act-detail/act-detail";
 import {Store} from "@ngrx/store";
 import {Region} from "../../stateStore/log.store";
 import {Subscription} from "rxjs/Subscription";
+import {TastePage} from '../taste/taste';
+
 @Component({
   selector: 'page-culture',
   templateUrl: 'culture.html',
@@ -17,50 +18,54 @@ export class CulturePage implements OnInit, OnDestroy {
   @ViewChild(Slides) slides: Slides;
   orgY: any;
   sY: any;
-  lunbTopList:any = [];
+  lunbTopList: any = [];
   tasteList: any = [];
   liveList: any = [];
   actList: any = [];
-  regCode:any = null;
+  regCode: any = null;
   page: any = {
     pageIndex: 1,
-    pageSeize: 3,
+    pageSeize: 10,
     pageTotal: 0
   };
- msg;
-s:Subscription;
+  msg;
+  s: Subscription;
 
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private httpService: HttpServiceProvider,
-    private store: Store<Region>
-    ) {
-
-   this.s = this.store.select(('region' as any)).subscribe((log)=>{
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private httpService: HttpServiceProvider,
+              private store: Store<Region>) {
+    this.s = this.store.select(('region' as any)).subscribe((log) => {
       if (log.region_code !== this.regCode) {
+        this.page.pageIndex = 1;
+        this.actList = [];
         this.regCode = log.region_code;
         this.getLunTopList();
+        this.getTastList();
+        this.getActList();
+        this.getLiveList();
       }
     });
   }
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
-    console.log('页码', this.page.pageIndex);
+    // alert('下拉刷新');
     let getPageStr = {
-      'sorts':{
-        'sort':'status',
-        'order':'asc'
+      'sorts': {
+        'sort': 'status',
+        'order': 'asc'
+      },
+      'filters': {
+        'regional_code': this.regCode
       },
       'pagenum': this.page.pageIndex,
-      'pagesize': this.page.pageSeize ,
-      'type':'4000'
+      'pagesize': this.page.pageSeize,
+      'type': '4000'
     };
-    this.httpService.get(appApis.get_app_data + '?getPageStr='+ JSON.stringify(getPageStr),
+    this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getPageStr),
       data => {
         if (data && data.data) {
-         
-          console.log('活动数据',data.data)
+
+          // console.log('活动数据', data.data)
           if (this.page.pageIndex == 1) {
 
             this.actList = [];
@@ -82,9 +87,9 @@ s:Subscription;
           //页码加1
           infiniteScroll.complete();
           console.log('Async operation has ended');
-        }else{
+        } else {
           infiniteScroll.enable(false)
-          this.msg='暂无更多数据'
+          this.msg = '暂无更多数据'
         }
       },
       error => {
@@ -92,28 +97,28 @@ s:Subscription;
       });
 
   }
+
   ngOnInit(): void {
-    this.getTastList();
-    this.getActList();
-    this.getLiveList();
   }
+
   ngOnDestroy(): void {
     this.s.unsubscribe();
   }
-  ionViewDidEnter(){
-  }
+
+
+
   // 加载轮播图
   getLunTopList() {
     const param = {
       'type': 12000,
       'filters': {
-        'classify_id': this.regCode,
+        'classify_id': 370000,
         'limit': 5
       }
     };
-    this.httpService.get(appApis.get_app_data + '?getStr=' +  JSON.stringify(param),
+    this.httpService.get(appApis.get_app_data + '?getStr=' + JSON.stringify(param),
       data => {
-      console.log(data);
+        console.log(data);
         if (data.data) {
           this.lunbTopList = data.data;
         }
@@ -122,16 +127,20 @@ s:Subscription;
         console.error(err);
       });
   }
+
   /*见闻列表*/
-  getTastList(){
+  getTastList() {
     const getStr = {
       'type': '11000',
+      'filters': {
+        'regional_code': this.regCode
+      },
       'pagesize': 3
     };
     this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getStr),
       data => {
         console.log(data);
-        if (data && data.data){
+        if (data && data.data) {
           this.tasteList = data.data;
         }
       },
@@ -139,24 +148,26 @@ s:Subscription;
         console.error(error);
       });
   }
+
   /*直播活动列表 4000*/
-  getLiveList(){
+  getLiveList() {
     const getStr = {
       'type': '4000',
-      'sorts':{
-        'sort':'status',
-        'order':'asc'
+      'sorts': {
+        'sort': 'status',
+        'order': 'asc'
       },
       'pagenum': this.page.pageIndex,
-      'pagesize': this.page.pageSeize ,
+      'pagesize': this.page.pageSeize,
       'filters': {
         'l_status': 1,
+        'regional_code': this.regCode
       }
     };
     this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getStr),
       data => {
-        console.log('直播活动',data);
-        if (data && data.data){
+        console.log('直播活动', data);
+        if (data && data.data) {
           this.liveList = data.data;
         }
       },
@@ -164,33 +175,36 @@ s:Subscription;
         console.error(error);
       });
   }
+
   // 获得活动列表数据
-  getActList(){
+  getActList() {
     console.log('页码', this.page.pageIndex);
     let getPageStr = {
-      'sorts':{
-        'sort':'status',
-        'order':'asc'
+      'sorts': {
+        'sort': 'status',
+        'order': 'asc'
+      },
+      'filters': {
+        'regional_code': this.regCode
       },
       'pagenum': this.page.pageIndex,
-      'pagesize': this.page.pageSeize ,
-      'type':'4000'
+      'pagesize': this.page.pageSeize,
+      'type': '4000'
     };
-    this.httpService.get(appApis.get_app_data + '?getPageStr='+ JSON.stringify(getPageStr),
+    this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getPageStr),
       data => {
+
         if (data && data.data) {
-          console.log('活动数据',data.data)
+          // console.log('活动数据', data.data)
           if (this.page.pageIndex == 1) {
             this.actList = [];
-
-            for (var i = 0; i < data.data.length; i++) {
+            for (let i = 0; i < data.data.length; i++) {
               if (data.data[i]) {
                 this.actList.push(data.data[i]);
               }
             }
           } else {
-
-            for (var i = 0; i < data.data.length; i++) {
+            for (let i = 0; i < data.data.length; i++) {
               if (data.data[i]) {
                 this.actList.push(data.data[i]);
               }
@@ -198,9 +212,8 @@ s:Subscription;
           }
           this.page.pageIndex += 1;
           //页码加1
-        }else{
-
-          this.msg='暂无数据'
+        } else {
+          this.msg = '暂无数据'
         }
       },
       error => {
@@ -211,13 +224,20 @@ s:Subscription;
   slideChanged() {
 
   }
+
   autoplay() {
   }
-  toTastDel(tasteId){
-    this.navCtrl.push(TasteDelPage,{tastId: tasteId});
+
+  opentast() {
+    this.navCtrl.push(TastePage);
   }
-  toActDel(id){
-    this.navCtrl.push(ActDetailPage, {actid:id});
+
+  toTastDel(tasteId) {
+    this.navCtrl.push(TasteDelPage, {tastId: tasteId});
+  }
+
+  toActDel(id) {
+    this.navCtrl.push(ActDetailPage, {actid: id});
   }
 
 }

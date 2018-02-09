@@ -2,8 +2,8 @@
 <div class="video" *ngIf="videoDel">
   <div class="videoTit">直击现场<i class="iconfont icon-zhiboguanbi" (tap)="toBack()"></i></div>
   <div class="videoImg">
-    <!-- <img src="{{videoDel.pic}}" alt=""/> -->
-    
+    <div id="live_video"></div>
+
     <dl class="videoOdl">
       <dt>{{videoDel.name}}</dt>
       <dd>{{videoDel.hostnit}}</dd>
@@ -11,7 +11,7 @@
   </div>
 
   <div class="videoNum">
-    <p>500.9万<span>观看</span></p>
+    <p>{{videoDel.online}}<span>人观看</span></p>
     <i class="iconfont icon-fenxiang" ></i>
   </div>
 </div>

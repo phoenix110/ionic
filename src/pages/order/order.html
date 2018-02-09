@@ -1,9 +1,4 @@
-<!--
-  Generated template for the OrderPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <div class="body">
 <div class="actDetail">
 <div class="msg_box">
@@ -12,13 +7,15 @@
           <i class="iconfont icon-fanhui" (tap)="toBack()"></i>
           <span>我的参与</span>
         </div>
-    
+
      </div>
+    <ion-content>
      <div *ngIf="orderlsit">
       <div *ngFor="let item of orderlsit">
           <orderlist [orderlist]='item'></orderlist>
       </div>
       </div>
+    </ion-content>
 </div>
-</div> 
+</div>
 </div>

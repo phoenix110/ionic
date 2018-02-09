@@ -1,35 +1,16 @@
 <!--评论列表-->
-<div class="appraiseBox">
-  <div class="userPhoto"><img src="" alt=""/></div>
+<div class="appraiseBox" *ngIf="appralist">
+  <div class="userPhoto"><img src="{{appralist.profile?appralist.profile:'assets/imgs/nan.png'}}" alt=""/></div>
   <div class="userApprai">
     <dl class="appodl">
-      <dt>用户昵称 <span>2017-01-20</span></dt>
-      <dd>活动质量：
-        <div class="starBox">
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-        </div>
-      </dd>
-      <dd>场地设施：
-        <div class="starBox">
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-        </div>
-      </dd>
-      <dd>人员服务：
-        <div class="starBox">
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-          <i class="iconfont icon-xingjixuanzhonghou"></i>
-        </div>
-      </dd>
+      <dt>{{appralist.nickname}} <span>{{appralist.createtime}}</span></dt>
+      <dd>活动质量：<nz-rate [(ngModel)]="appralist.quality" nzDisabled [nzCount]="appralist.quality"></nz-rate></dd>
+      <dd>场地设施：<nz-rate [(ngModel)]="appralist.site" nzDisabled [nzCount]="appralist.site"></nz-rate></dd>
+      <dd>人员服务：<nz-rate [(ngModel)]="appralist.service" nzDisabled [nzCount]="appralist.service"></nz-rate></dd>
     </dl>
-    <p class="oappCon">评论详细内容评论详细内容评论详细内容评论详细内容评论详细内容评论详细内容</p>
-    <div class="oappImg">
-      <img src="http://placehold.it/290x290" alt=""/>
-      <img src="http://placehold.it/290x290" alt=""/>
-      <img src="http://placehold.it/290x290" alt=""/>
+    <div class="oappCon"><p>{{appralist.content}}</p></div>
+    <div class="oappImg" *ngIf="appralist.pics">
+      <img src={{i.pic}} alt="" *ngFor="let i of appralist.pics"/>
     </div>
   </div>
 </div>

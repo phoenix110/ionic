@@ -7,7 +7,7 @@ appraise-list {
     box-sizing: border-box;
     .userPhoto{
       width:px2em(217px);
-      height:100%;
+      //height:100%;
       display: flex;
       justify-content: center;
       img{
@@ -25,6 +25,7 @@ appraise-list {
       padding:px2em(64px) px2em(36px) 0 0;
       box-sizing: border-box;
       border-bottom: 1px solid #9e894b;
+      overflow: hidden;
       .appodl{
         dt{
           @include font-dpr(15px);
@@ -43,6 +44,11 @@ appraise-list {
           color:#999;
           margin-bottom: px2em(32px);
           display: flex;
+          .ant-rate{
+            font-size:15px;
+            display: flex;
+            color:#9e894b;
+          }
           .starBox{
             //margin-left: px2em(30px);
             i{
@@ -57,8 +63,12 @@ appraise-list {
       }
       .oappCon{
         padding:px2em(40px) 0;
-        color:white;
-        @include font-dpr(14.6px);
+        width:100%;
+        overflow: hidden;
+        p{
+          color:white;
+          @include font-dpr(14.6px);
+        }
       }
       .oappImg{
         display: flex;

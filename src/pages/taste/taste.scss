@@ -19,7 +19,7 @@ page-taste {
         button{
           width:px2em(595px);
           height:px2em(93px);
-          border:px2em(3px) solid #9e894b;
+          border:1px solid #9e894b;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -27,7 +27,7 @@ page-taste {
           color:#9e894b;
           @include font-dpr(14px);
           font-weight: 600;
-          border-radius: px2em(40px);
+          border-radius: px2em(50px);
         }
       }
       #navTit{
@@ -72,6 +72,12 @@ page-taste {
         height:px2em(300px);
         margin-bottom: px2em(40px);
 
+      }
+      .loadtxt{
+        @include font-dpr(14px);
+        text-align: center;
+        color: #9e894b;
+        margin: px2em(20px);
       }
     }
 

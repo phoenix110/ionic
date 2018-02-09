@@ -1,11 +1,11 @@
 <!--&lt;!&ndash;轮播图&ndash;&gt;-->
-<ion-content>
+
 
 <div id="cul_body">
     <lunbo-top [lunbTopList]="lunbTopList"></lunbo-top>
   <acv-online [liveList]="liveList" *ngIf="liveList !='' "></acv-online>
   <!--见闻-->
-  <img src="assets/imgs/0.png" class="add" alt="" >
+  <img src="assets/imgs/0.png" class="add" alt="" (tap)="opentast();">
   <ul>
     <li *ngFor="let i of tasteList" (tap)="toTastDel(i.id)">
       <see-hear [tasteList]="i"></see-hear>
@@ -22,9 +22,9 @@
 
 </div>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles"
-      loadingText="数据加载中..."></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles"
+  loadingText="数据加载中..."></ion-infinite-scroll-content>
+</ion-infinite-scroll>
 
-</ion-content>
+

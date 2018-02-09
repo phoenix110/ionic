@@ -2,16 +2,16 @@ page-setting {
     .setting{
         display: flex;
   flex-direction: column;
- 
+
   align-items: center;
   width: 100%;
     }
     .msg_box{
-        
+
         width: 100%;
         font-weight: bold;
-         
-     
+
+
     }
     .redelTit {
        width: 100%;
@@ -26,6 +26,7 @@ page-setting {
          color: #9e894b;
          position: absolute;
          left: px2em(50px);
+         top:px2em(25px);
          @include font-dpr(16px);
        }
      }
@@ -54,5 +55,5 @@ page-setting {
   margin-bottom:px2em(34px);
   border-bottom:solid #9e894b px2em(2px);
      }
-      
+
 }

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {appApis} from "../../providers/apis";
-import { IonicPage, NavController, NavParams,LoadingController} from 'ionic-angular';
-import { ActDetailPage } from '../act-detail/act-detail';
-import { TasteDelPage } from '../taste-del/taste-del';
-import { SpaceDelPage } from '../space-del/space-del';
-import { ScenDelPage } from '../scen-del/scen-del';
-import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {ActDetailPage} from '../act-detail/act-detail';
+import {TasteDelPage} from '../taste-del/taste-del';
+import {SpaceDelPage} from '../space-del/space-del';
+import {ScenDelPage} from '../scen-del/scen-del';
+import {HttpServiceProvider} from '../../providers/http-service/http-service';
 
 /**
  * Generated class for the ShoucangjiaPage page.
@@ -19,7 +19,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
   templateUrl: 'shoucangjia.html',
 })
 export class ShoucangjiaPage {
-  
+
 
   plaIndex = 0;
   placeNav = [
@@ -28,7 +28,7 @@ export class ShoucangjiaPage {
     { id: 2, tit: '景点'},
     { id: 3, tit: '空间'}
   ]
- 
+
   actList: any = [];
   tasteList:any = [];
   item: any = [];
@@ -37,8 +37,8 @@ export class ShoucangjiaPage {
   }
 
   ionViewDidLoad() {
-  
-    
+
+
     this.getTastList();
     this.getActList();
     this.getjingdianList();
@@ -60,11 +60,11 @@ export class ShoucangjiaPage {
       data => {
         console.log(data);
         if (data && data.data){
-          
+
           this.actList = data.data;
           let loader = this.loadingCtrl.create({
             content: "加载数据中...",
-            duration: 113000
+            duration: 3000
           });
           loader.present();
         }
@@ -75,7 +75,7 @@ export class ShoucangjiaPage {
   }
   /*品味列表*/
   getTastList(){
-    
+
     const getStr = {
       'type': '0008',
       'sorts':{
@@ -119,7 +119,7 @@ export class ShoucangjiaPage {
       error => {
         console.error(error);
       });
-  
+
 }
   /*该站点空间列表*/
   getSpaceList(){
@@ -156,7 +156,7 @@ export class ShoucangjiaPage {
   tojingdian(spaceId){
     this.navCtrl.push(ScenDelPage,{spaceId:spaceId});
   }
-  
+
   changeNav(index) {
     this.plaIndex = index;
   }

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import {NgZorroAntdModule} from 'ng-zorro-antd';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SeeHearComponent } from './see-hear/see-hear';
 import { CulActivityComponent } from './cul-activity/cul-activity';
 import { AcvOnlineComponent } from './acv-online/acv-online';
@@ -43,7 +45,9 @@ import { ActivityListComponent } from './activity-list/activity-list';
   ],
 	imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    NgZorroAntdModule.forRoot(),
   ],
 	exports: [
     SeeHearComponent,

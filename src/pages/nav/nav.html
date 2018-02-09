@@ -1,9 +1,4 @@
-<!--
-  Generated template for the NavPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <div class="body">
   <div *ngIf="!s5">
     <div class="h_con">
@@ -23,10 +18,12 @@
     </div>
   </div>
   <div class="con" id="cont">
+      <ion-content>
     <page-culture *ngIf="s1 || s2"></page-culture>
     <page-activity *ngIf="s3"></page-activity>
     <page-taste *ngIf="s4"></page-taste>
-    <page-me *ngIf="s5"></page-me>
+    <page-me *ngIf="s5" [islogin]="islogin"></page-me>
+      </ion-content>
   </div>
     <div class="tabs">
       <div [class]="s1? 'colo col': 'col'" tappable  (tap)="culShow()"><span class="indexcolor"> 首页</span>  <span class="indextext">Home</span> </div>
@@ -36,4 +33,3 @@
       <div [class]="s5? 'colo col': 'col'" (click)="meShow()"><span class="indexcolor"> 我</span> <span class="indextext">Me</span> </div>
     </div>
 </div>
-

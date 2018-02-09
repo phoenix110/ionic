@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
-import $ from 'jquery';
 import {appApis} from "../../providers/apis";
+
 @Component({
   selector: 'page-taste-appsub',
   templateUrl: 'taste-appsub.html',
@@ -12,7 +12,7 @@ export class TasteAppsubPage {
   tasteID;
   tasteTit;
   tastValueList:any = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController,public navParams: NavParams, private httpService: HttpServiceProvider) {
     this.tasteID = navParams.data.tasteID;
     this.tasteTit = navParams.data.tasteTit;
   }
@@ -47,12 +47,22 @@ export class TasteAppsubPage {
   subValue() {
     if (localStorage.getItem('usid')){
       if(this.tastValue == ""){
-          alert( '评论内容不能为空')
+        let alert = this.alertCtrl.create({
+          title: '提示信息',
+          subTitle: '评论内容不能为空',
+          buttons: ['确定']
+        });
+        alert.present();
       }else{
         this.Value();
       }
     }else {
-        alert( '请先登录')
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请先登录',
+        buttons: ['确定']
+      });
+      alert.present();
     }
 
   }
@@ -84,5 +94,6 @@ export class TasteAppsubPage {
   }
   toBack() {
     this.navCtrl.pop();
+    // this.navCtrl.push(TasteDelPage);
   }
 }

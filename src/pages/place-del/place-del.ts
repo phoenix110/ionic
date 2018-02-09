@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import {SpaceDelPage} from "../space-del/space-del";
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
@@ -24,12 +24,17 @@ export class PlaceDelPage {
     { id: 2, tit: '品味'},
     { id: 3, tit: '空间'},
   ];
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController,public navParams: NavParams, private httpService: HttpServiceProvider) {
     this.stationID = navParams.data.stationID;
     this.stationType = navParams.data.stationType;
   }
 
   ionViewDidLoad() {
+    //根据设备尺寸固定内容高度
+    const div = document.getElementById('heiCon');
+    const tit = document.getElementsByClassName('plaTop')[0];
+    div.style.height = document.documentElement.clientHeight - tit.clientHeight + 'px';
+    /*         */
     this.gePlaDel();
     this.getSpaceList();
     this.getTastList();
@@ -136,14 +141,29 @@ export class PlaceDelPage {
           if (error) {
             if (error.code === 1) {
               this.gePlaDel();
-              alert('收藏成功')
+              let alert = this.alertCtrl.create({
+                title: '提示信息',
+                subTitle: '关注成功',
+                buttons: ['确定']
+              });
+              alert.present();
             }else {
-              alert('收藏失败')
+              let alert = this.alertCtrl.create({
+                title: '提示信息',
+                subTitle: '关注失败',
+                buttons: ['确定']
+              });
+              alert.present();
             }
           }
         });
     }else {
-      alert('请先登录')
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请先登录',
+        buttons: ['确定']
+      });
+      alert.present();
     }
   }
   // 取消收藏
@@ -162,10 +182,20 @@ export class PlaceDelPage {
         console.log(error);
         if (error) {
           if (error.code === 1) {
-            alert('您已取消收藏');
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: '您已取消收藏',
+              buttons: ['确定']
+            });
+            alert.present();
             this.gePlaDel();
           }else {
-            alert('取消收藏失败');
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: '取消收藏失败',
+              buttons: ['确定']
+            });
+            alert.present();
 
           }
         }

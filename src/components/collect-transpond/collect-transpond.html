@@ -9,8 +9,8 @@
   <div id="share-content">
     <div class="share-list row">
       <div class="share-item col" (click)="qqShare()"><img src="assets/imgs/qq.png" alt=""><span>QQ</span></div>
-      <div class="share-item col"><img src="assets/imgs/wx.png" alt=""><span>微信</span></div>
-      <div class="share-item col"><img src="assets/imgs/pyq.png" alt=""><span>朋友圈</span></div>
+      <div class="share-item col" (click)="weChatShare(0)"><img src="assets/imgs/wx.png" alt=""><span>微信</span></div>
+      <div class="share-item col" (click)="weChatShare(1)"><img src="assets/imgs/pyq.png" alt=""><span>朋友圈</span></div>
       <div class="share-item col" (click)="weiboShare()"><img src="assets/imgs/wb.png" alt=""><span>微博</span></div>
     </div>
     <div class="cancel" (click)="cancelShare()">取&nbsp;&nbsp;&nbsp;&nbsp;消</div>

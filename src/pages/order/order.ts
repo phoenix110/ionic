@@ -1,13 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { appApis } from '../../providers/apis';
-import { HttpServiceProvider } from '../../providers/http-service/http-service';
-/**
- * Generated class for the OrderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {appApis} from '../../providers/apis';
+import {HttpServiceProvider} from '../../providers/http-service/http-service';
 
 @Component({
   selector: 'page-order',
@@ -20,20 +14,20 @@ export class OrderPage {
 
   ionViewDidLoad() {
     this.getOrderList();
-    console.log('ionViewDidLoad OrderPage');
   }
   /*见闻列表*/
   getOrderList(){
+    console.log(111);
     const getStr = {
       'type': '4002',
       'filters':{
             'id':localStorage.getItem('usid'),
       }
-       
+
     };
     this.httpService.get(appApis.get_app_data + '?getPageStr=' + JSON.stringify(getStr),
       data => {
-        console.log(data);
+        console.log(JSON.stringify(data));
         if (data && data.data){
           this.orderlsit = data.data;
         }

@@ -7,6 +7,7 @@ import {Md5} from "ts-md5/dist/md5";
 import {UUID} from "angular2-uuid";
 import {NavPage} from "../pages/nav/nav";
 import {ROOT_URL} from "../providers/config";
+import {appApis} from "../providers/apis";
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +22,11 @@ export class MyApp implements OnInit{
       statusBar.styleDefault();
       statusBar.overlaysWebView(false);
       splashScreen.hide();
-      // localStorage.clear();
+      //延迟隐藏闪屏 防止有白屏
+      // setTimeout(() => {
+      //   splashScreen.hide();
+      // }, 1000);
+    // localStorage.clear();
     });
   }
   ngOnInit(): void {
@@ -40,7 +45,7 @@ export class MyApp implements OnInit{
     // let getStr = "%7B%27unique%27%3A" + uuid + ",%27secret%27%3A" + secret + "%7D";
     $.ajax({
       type: 'get',
-      url: ROOT_URL+'cloud/token?getStr=' + getStr,
+      url: ROOT_URL+appApis.get_app_token+'?getStr=' + getStr,
       async: false,
       success: function (data) {
         data = eval('(' + data + ')');

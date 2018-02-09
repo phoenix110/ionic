@@ -5,13 +5,12 @@
       <div class="qrcodebox"><qr-code [value]="resActdetail.code"></qr-code></div>
     </div>
     <!--<div class="redelName" *ngIf="order.a_status == 0">已过期</div>-->
-
+    <div class="reCode">二维码有效时间为60秒,失效请<a (tap)="refresh()">刷新</a></div>
     <div class="redelName isgo" *ngIf="order.status == 1">已报名</div>
     <div class="redelName" *ngIf="order.status == 2">已取消</div>
 
    <!-- <div class="redelName isgo" *ngIf="order.status == 2">已参与</div>
     <div class="redelName" *ngIf="order.c_status == 1">已评价</div>-->
-
     <!---->
     <ul class="revdelOul">
       <li>

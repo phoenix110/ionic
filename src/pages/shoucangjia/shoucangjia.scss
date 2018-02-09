@@ -2,7 +2,7 @@ page-shoucangjia {
     .setting{
         display: flex;
   flex-direction: column;
- 
+
   align-items: center;
   width: 100%;
     }
@@ -32,7 +32,7 @@ page-shoucangjia {
     }
     .msg_box{
         width: 100%;
-        font-weight: bold;    
+        font-weight: bold;
     }
     .redelTit {
        width: 100%;
@@ -47,6 +47,7 @@ page-shoucangjia {
          color: #9e894b;
          position: absolute;
          left: px2em(50px);
+         top:px2em(25px);
          @include font-dpr(16px);
        }
      }
@@ -66,9 +67,9 @@ page-shoucangjia {
           height: px2em(130px);
           background: #272727;
           display: flex;
-           
+
           align-items: center;
-           
+
           box-sizing: border-box;
           //font-weight: 600;
           color:#9e894b;
@@ -77,7 +78,7 @@ page-shoucangjia {
             color:#9e894b;
             @include font-dpr(16px);
           }
-    
+
         }
     }
     .placeNav{
@@ -117,7 +118,7 @@ page-shoucangjia {
       line-height: 0.6924rem;
       background: none;
       margin-left: px2em(10px);
-      
+
   }
     .search i {
         color: #272727 !important;

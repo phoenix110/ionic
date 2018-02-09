@@ -58,10 +58,10 @@ page-me {
     flex-direction: column;
     justify-content:space-around;
     align-items: center;
-    width:px2em(412px);
+    width:px2em(475px);
     text-align: center;
     color: #9e894b;
-    border-bottom: px2em(1px) solid #000000;
+    border-bottom: 1px solid #000000;
     @include font-dpr(17px);
   }
   .me_line span{

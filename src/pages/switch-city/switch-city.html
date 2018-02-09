@@ -1,9 +1,4 @@
-<!--
-  Generated template for the SwitchCityPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <div class="sw-head">
   <span class="bc" (tap)="back()">
       <i class="iconfont icon-fanhui"></i>
@@ -17,8 +12,8 @@
       <span class="gps-city">{{gpsCity}}</span>
       <span class="gps-rem">GPS</span>
     </div>
-    <div class="sw-city-list">
-      <div class="city-item" *ngFor="let o of options" (tap)="sendCity(o)">{{o.value}}</div>
+    <div class="sw-city-list" *ngIf="options">
+      <div class="city-item" *ngFor="let o of options" (tap)="sendCity(o)">{{o.regional_name}}</div>
     </div>
   </div>
 </div>

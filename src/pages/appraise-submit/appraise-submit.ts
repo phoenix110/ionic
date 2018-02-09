@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, AlertController} from 'ionic-angular';
-// import { PhotoLibrary } from '@ionic-native/photo-library';
-import {Camera, CameraOptions} from "@ionic-native/camera";
-// import {appApis} from "../../providers/apis";
+import {Component} from '@angular/core';
+import {ActionSheetController, AlertController, NavController, NavParams} from 'ionic-angular';
+import {Camera} from "@ionic-native/camera";
+import {HttpClient} from '@angular/common/http';
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
+
+import {appApis} from "../../providers/apis";
+import {ROOT_URL} from "../../providers/config";
 
 @Component({
   selector: 'page-appraise-submit',
@@ -12,101 +14,104 @@ import {HttpServiceProvider} from "../../providers/http-service/http-service";
 export class AppraiseSubmitPage {
   avatar: string = "";
   photoList: any = [];
+  rootUrl = ROOT_URL;
+  valueID;
+  valueName;
+  txtValue;
+  porPath;
+  subPath;
+  actQuality = 0;
+  plaQuality = 0;
+  perQuality = 0;
+  imgBox: any = [];
   public url: string = 'placeholder.jpg';
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private httpService: HttpServiceProvider,
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    // private photoLibrary: PhotoLibrary,
-    public camera: Camera
-  ) {
 
-   }
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private httpService: HttpServiceProvider,
+              public actionSheetCtrl: ActionSheetController,
+              public alertCtrl: AlertController,
+              public httpClient: HttpClient,
+              public camera: Camera) {
+    this.valueID = navParams.data.valueID;
+    this.valueName = navParams.data.valueName;
+    console.log('valueID', this.valueID);
+  }
 
   ionViewDidLoad() {
-  }
-  presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      buttons: [{
-        text: '拍照',
-        role: 'takePhoto',
-        handler: () => {
-          this.takePhoto();
-        }
-      }, {
-        text: '从相册选择',
-        role: 'chooseFromAlbum',
-        handler: () => {
-          this.chooseFromAlbum();
-        }
-      }, {
-        text: '取消',
-        role: 'cancel',
-        handler: () => {
-          console.log("cancel");
-        }
-      }]
-    });
-
-    actionSheet.present().then(value => {
-      return value;
-    });
-  }
-  takePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      allowEdit: true,
-      targetWidth: 200,
-      targetHeight: 200,
-      saveToPhotoAlbum: true,
-    };
-
-    this.camera.getPicture(options).then(image => {
-      console.log('Image URI: ' + image);
-      this.avatar = image.slice(7);
-    }, error => {
-      console.log('Error: ' + error);
-    });
+    //根据设备尺寸固定内容高度
+    const div = document.getElementById('subValBody');
+    const tit = document.getElementsByClassName('valueTit')[0];
+    div.style.height = document.documentElement.clientHeight - tit.clientHeight + 'px';
   }
 
-  chooseFromAlbum() {
-    /*this.photoLibrary.requestAuthorization().then(() => {
-      // this.photoLibrary.getAlbums();
-      // this.photoLibrary.getPhoto;
-      this.photoLibrary.getLibrary().subscribe({
-        next: library => {
-          this.photoList = library;
-
-          library.forEach(function(libraryItem) {
-
-            // console.log(libraryItem.id);          // ID of the photo
-            console.log(libraryItem.photoURL);    // Cross-platform access to photo
-            console.log(libraryItem.thumbnailURL);// Cross-platform access to thumbnail
-            // console.log(libraryItem.fileName);
-            // console.log(libraryItem.width);
-            // console.log(libraryItem.height);
-            // console.log(libraryItem.creationDate);
-            // console.log(libraryItem.latitude);
-            // console.log(libraryItem.longitude);
-            // console.log(libraryItem.albumIds);
-          });
-
+  uploadFile($event): void {
+    console.log('event', JSON.stringify($event));
+    if ($event) {
+      this.httpService.upload(appApis.upload_app_file,
+        $event,
+        data => {
+          console.log(JSON.stringify(data.data));
+          this.porPath = data.data.path;
+          this.subPath = data.data.url;
+          this.imgBox.push({id: this.imgBox.length, imgpath: data.data.path, imgSub: data.data.url});
         },
-        error: err => { console.log('could not get photos'); },
-        complete: () => { console.log('done getting photos'); }
-      });
-    })
-    .catch(err => console.log('permissions weren\'t granted'));*/
+        error => {
+          console.error(error);
+        },
+        "file")
+    }
   }
 
-  presentAlert() {
-    let alert = this.alertCtrl.create({title: "上传失败", message: "只能选择一张图片作为头像哦", buttons: ["确定"]});
-    alert.present().then(value => {
-      return value;
-    });
+  delet(id) {
+    console.log('index', id);
+    for (let i = 0; i < this.imgBox.length; i++) {
+      if (this.imgBox[i].id === id) {
+        this.imgBox.splice(i, 1);
+      }
+    }
+    console.log(this.imgBox);
   }
+
+  subAppraise() {
+    let imgPath = '';
+    // 处理图片路径
+    for (let i = 0; i < this.imgBox.length; i++) {
+      imgPath += this.imgBox[i].imgSub + ',';
+    }
+    const postStr = {
+      'type': '0015',
+      'data': {
+        'accid': localStorage.getItem('usid'),
+        'bizid': this.valueID,
+        'type': '1',
+        'level': '5',
+        'name': this.valueName,
+        'quality': this.actQuality,
+        'site': this.plaQuality,
+        'service': this.perQuality,
+        'pic': imgPath.substr(0, imgPath.length - 1),
+        'content': this.txtValue,
+      },
+      'operate': 'A',
+    };
+    console.log(JSON.stringify(postStr));
+    this.httpService.get(appApis.get_app_data + '?postStr=' + JSON.stringify(postStr),
+      data => {
+        console.log('提交评价', JSON.stringify(data));
+        if (data.code !== 1) {
+          alert(data.data)
+        } else if (data.code === 1) {
+          alert(data.msg);
+          this.imgBox = [];
+        }
+      },
+      error => {
+        console.error(error);
+      });
+  }
+
+
   toBack() {
     this.navCtrl.pop();
   }

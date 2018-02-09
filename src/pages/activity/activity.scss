@@ -27,7 +27,8 @@ page-activity {
               color:#9e894b;
               @include font-dpr(36px);
               margin-right: .4rem;
-              margin-bottom: .09rem;
+             
+              font-weight:normal;
             }
             dl{
               font-weight: 600;
@@ -63,13 +64,14 @@ page-activity {
             i{
               margin-right: 0;
               @include font-dpr(30px);
-              margin-bottom: 0.1rem;
+              
             }
           }
           dl{
             display: flex;
             flex-direction: column;
             align-items: center;
+            @include line-height(14px);
           }
         }
         li:nth-child(3){
@@ -79,13 +81,14 @@ page-activity {
             i{
               margin-right: 0;
               @include font-dpr(30px);
-              margin-bottom: 0.1rem;
+              
             }
           }
           dl{
             display: flex;
             flex-direction: column;
             align-items: center;
+            @include line-height(16px);
           }
         }
       }

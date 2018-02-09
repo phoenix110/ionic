@@ -37,7 +37,7 @@
   </div>
   <div class="act-list-container">
     <ul class="act-list">
-      <li *ngFor="let a of actList">
+      <li *ngFor="let a of actList" (click)="toActDetail(a.id)">
         <activity-list [actList]="a"></activity-list>
       </li>
     </ul>

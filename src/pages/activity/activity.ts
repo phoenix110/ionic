@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import {HttpClient} from "@angular/common/http";
+import {NavController, NavParams} from 'ionic-angular';
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import {ActOnlinePage} from "../act-online/act-online";
 import {CalendarPage} from "../calendar/calendar";
 import {appApis} from "../../providers/apis";
 import {ActDetailPage} from "../act-detail/act-detail";
+
 
 @Component({
   selector: 'page-activity',
@@ -16,9 +16,10 @@ export class ActivityPage implements OnInit{
   actList: any = [];
   actClassId;
   msg;
+  navIndex = 0;
   page: any = {
     pageIndex: 1,
-    pageSeize: 3,
+    pageSeize: 10,
     pageTotal: 0
   };
   // items = [];
@@ -78,17 +79,20 @@ export class ActivityPage implements OnInit{
         }
       },
       error => {
+      alert('活动请求失败');
         console.error(error);
       });
   }
 
-  toActDel(id) {
-    this.navCtrl.push(ActDetailPage, {actid:id});
-  }
+
+
   toActOnline(tit){
     this.navCtrl.push(ActOnlinePage, {title: tit});
   }
   toCalendar(){
     this.navCtrl.push(CalendarPage);
+  }
+  toActDel(id){
+    this.navCtrl.push(ActDetailPage, {actid:id});
   }
 }

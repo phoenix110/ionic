@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input  } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
@@ -24,7 +24,7 @@ export class BombboxComponent {
   data: any = [];
   countinterval3;
   time3 = 60;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private toastCtrl: ToastController,  private httpService: HttpServiceProvider) {
+  constructor(public navCtrl: NavController,private alertCtrl: AlertController, public navParams: NavParams,private toastCtrl: ToastController,  private httpService: HttpServiceProvider) {
     this.getUserInfor();
   }
   /*获得用户信息*/
@@ -75,24 +75,44 @@ export class BombboxComponent {
       this.httpService.get(appApis.get_app_data + '?postStr=' + JSON.stringify(postStr),
         data => {
           if (data.code){
-            alert( data.msg);
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: data.msg,
+              buttons: ['确定']
+            });
+            alert.present();
             this.messBox.emit(this.messClase);
           }else {
-            alert(data.msg)
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: data.msg,
+              buttons: ['确定']
+            });
+            alert.present();
           }
         },
         error => {
           console.error(error);
         });
     }else{
-      alert('新密码与重复密码不一致')
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle:'输入的密码不一致',
+        buttons: ['确定']
+      });
+      alert.present();
     }
   }
   /*==================*/
   // 发送验证码
   sendCode(): void {
     if ( this.newPhone === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.newPhone ))) {
-      alert('请填写正确的手机号');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请填写正确的手机号',
+        buttons: ['确定']
+      });
+      alert.present();
     }else {
       if (this.canclick) {
         this.sCode();
@@ -109,7 +129,12 @@ export class BombboxComponent {
     this.httpService.get(appApis.get_app_code + '?getStr=' + JSON.stringify(getStr),
       data => {
         if (data.code === 0) {
-          alert(data.msg);
+          let alert = this.alertCtrl.create({
+            title: '提示信息',
+            subTitle: data.msg,
+            buttons: ['确定']
+          });
+          alert.present();
         }
         this.data = data;
         this.code = this.data.msg;
@@ -138,7 +163,12 @@ export class BombboxComponent {
   /*更改手机号码*/
   changPhone(){
     if((this.newPhone === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.newPhone ))) && (this.newPhone === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.newPhone )))){
-      alert('请填写正确的新手机号！');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请填写正确的手机号',
+        buttons: ['确定']
+      });
+      alert.present();
     }else{
       const postStr = {
         'type': '0017',
@@ -153,10 +183,20 @@ export class BombboxComponent {
       this.httpService.get(appApis.get_app_data + '?postStr=' + JSON.stringify(postStr),
         data => {
           if (data.code){
-            alert( data.msg);
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: data.msg,
+              buttons: ['确定']
+            });
+            alert.present();
             this.messBox.emit(this.messClase);
           }else {
-            alert(data.msg)
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: data.msg,
+              buttons: ['确定']
+            });
+            alert.present();
           }
         },
         error => {

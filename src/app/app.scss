@@ -59,3 +59,13 @@ ol,ul {
 .loading-ios .loading-wrapper{
   padding: px2em(10px) px2em(20px);
 }
+.alert-ios .alert-sub-title{
+  @include font-dpr(16px);
+}
+.alert-ios .alert-head{
+  padding: px2em(25px) px2em(40px);
+}
+.toolbar-background-ios{
+  background: none !important;
+  
+}

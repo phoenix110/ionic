@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import $ from 'jquery';
 import {appApis} from "../../providers/apis";
@@ -19,16 +19,21 @@ export class ForgetPage {
   data: any = [];
   countinterval3;
   time3 = 60;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
+  constructor(public navCtrl: NavController,private alertCtrl: AlertController, public navParams: NavParams, private httpService: HttpServiceProvider) {
   }
 
   ionViewDidLoad() {
 
   }
   // 发送验证码
-  sendCode(): void {
+  sendCodeF(): void {
     if ( this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.phoneValue ))) {
-      alert('请填写正确的手机号');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请填写正确的手机号',
+        buttons: ['确定']
+      });
+      alert.present();
       console.log(this.phoneValue);
     }else {
       if (this.canclick) {
@@ -47,7 +52,12 @@ export class ForgetPage {
     this.httpService.get(appApis.get_app_code + '?getStr=' + JSON.stringify(getStr),
       data => {
         if (data.code === 0) {
-          alert(data.msg);
+          let alert = this.alertCtrl.create({
+            title: '提示信息',
+            subTitle: data.msg,
+            buttons: ['确定']
+          });
+          alert.present();
         }
         this.data = data;
         // $('.safeCode').html(this.data.msg);
@@ -55,11 +65,11 @@ export class ForgetPage {
         let count = this.time3;
         if ( this.code === '发送验证码成功!') {
           this.countinterval3 = setInterval( () => {
-            $('.code').html(count + 's后重发');
+            $('.codeFor').html(count + 's后重发');
             if (count <= 0) {
               count = this.time3;
               clearInterval(this.countinterval3);
-              $('.code').html('获取');
+              $('.codeFor').html('获取');
               this.canclick = true;
             }else {
               count--;
@@ -77,9 +87,26 @@ export class ForgetPage {
   // 确认修改
   changeWord(): void {
     if ( this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.phoneValue + '' ))) {
-      alert('请填写正确的手机号');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请填写正确的手机号',
+        buttons: ['确定']
+      });
+      alert.present();
     }else if(this.pwValue != this.rePwValue){
-      alert('两次密码不一致');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '两次密码不一致',
+        buttons: ['确定']
+      });
+      alert.present();
+    }else if(this.codeValue != ''){
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请填写验证码',
+        buttons: ['确定']
+      });
+      alert.present();
     } else{
       const postStr = {
         'type': '0005',
@@ -94,11 +121,21 @@ export class ForgetPage {
         data => {
           if (data.code){
             this.data = data;
-            alert( data.msg)
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: data.msg,
+              buttons: ['确定']
+            });
+            alert.present();
             this.navCtrl.push(LoginPage);
             return this.data;
           }else {
-            alert(data.msg)
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: data.msg,
+              buttons: ['确定']
+            });
+            alert.present();
           }
         },
         error => {

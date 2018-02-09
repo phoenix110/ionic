@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { appApis } from '../../providers/apis';
-import { HttpServiceProvider } from '../../providers/http-service/http-service';
-import { MsgDelPage } from '../msg-del/msg-del';
-import { ToastController } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ToastController} from 'ionic-angular';
+import {appApis} from '../../providers/apis';
+import {HttpServiceProvider} from '../../providers/http-service/http-service';
+import {MsgDelPage} from '../msg-del/msg-del';
+
 /**
  * Generated class for the MsgCenterPage page.
  *
@@ -23,7 +23,7 @@ export class MsgCenterPage {
   ionViewDidLoad() {
 
     if(localStorage.getItem('usid') != undefined){
-      
+
       this.getmsglist();
     }else{
       let toast = this.toastCtrl.create({
@@ -31,18 +31,18 @@ export class MsgCenterPage {
         duration: 3000,
         position: 'top'
       });
-    
+
       toast.onDidDismiss(() => {
         console.log('Dismissed toast');
       });
-    
+
       toast.present();
     }
-   
+
   }
   getmsglist(){
       /*用户消息列表列表*/
- 
+
     const getStr = {
       'type': '0010',
       'sorts':{
@@ -62,22 +62,22 @@ export class MsgCenterPage {
             duration: 3000,
             position: 'top'
           });
-        
+
           toast.onDidDismiss(() => {
             console.log('Dismissed toast');
           });
-        
+
           toast.present();
         }
         if (data && data.data){
-         
+
           this.msglist = data.data;
         }
       },
       error => {
         console.error(error);
       });
- 
+
   }
   tomsgdel(msgid){
     this.navCtrl.push(MsgDelPage,{Msgid:msgid});

@@ -2,7 +2,7 @@
 <ion-content>
 <div class="loginbox hide-on-keyboard-open">
   <div class="loginmask">
-      <div class="loginclose"><i class="iconfont icon-xianguangjiantou"></i> 闲 逛</div>
+      <div class="loginclose" (tap)="toLogin()"><i class="iconfont icon-xianguangjiantou"></i> 闲 逛</div>
       <div class="logincenter">
         <div class="logininput">
 
@@ -11,7 +11,7 @@
             </div>
             <div class="line m-10 addcode">
                 <input type="text" placeholder="验证码" [(ngModel)]="codeValue">
-                <div class="code" (tap)="sendCode()">获取</div>
+                <div class="code codeFor" (tap)="sendCodeF()">获取</div>
             </div>
           <div class="line m-10">
               <input type="password" placeholder="密码" [(ngModel)]="pwValue">

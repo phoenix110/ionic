@@ -2,6 +2,8 @@ page-place-del {
   .placeDel{
     width:100%;
     height:100%;
+    padding-bottom: px2em(20px);
+    box-sizing: border-box;
     font-family: '宋体';
     background: url("../assets/imgs/2.png") repeat;
     background-size: 0.0966rem 0.0966rem;
@@ -17,6 +19,7 @@ page-place-del {
         color:#9e894b;
         position: absolute;
         left:px2em(50px);
+        top:px2em(40px);
         @include font-dpr(16px);
       }
     }
@@ -50,11 +53,10 @@ page-place-del {
         display: flex;
         justify-content: center;
         align-items: center;
-        width:200px;
-        height:84px;
+         padding: px2em(10px) px2em(40px);
         color:#9e894b;
         @include font-dpr(16px);
-        border:3px solid #9e894b;
+        border:1px solid #9e894b;
         border-radius: 40px;
         background: #272727;
       }
@@ -62,7 +64,7 @@ page-place-del {
     .noFous{
       span{
         color:#656565;
-        border:3px solid #656565;
+        border:1px solid #656565;
       }
     }
     .placeNav{
@@ -82,11 +84,16 @@ page-place-del {
         align-items: center;
         color:#272727;
         @include font-dpr(16px);
+        float: left;
       }
+
       .pActive{
         background: #272727;
         color:#9e894b;
       }
+    }
+    #heiCon{
+      overflow: scroll;
     }
     .plaIntro{
       width:10rem;
@@ -102,14 +109,21 @@ page-place-del {
           display: flex;
 
         }
+
         li:last-child{
           margin-bottom: px2em(43px);
         }
+      }
+      .add{
+        display: block;
+        width: px2em(250px);
+        //display: flex;
       }
       .introP{
         @include font-dpr(16px);
         color:#9e894b;
         line-height: px2em(75px);
+        display: flex;
         span{
           //letter-spacing: 28px;
         }

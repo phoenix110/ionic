@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
-import { appApis } from '../../providers/apis';
-import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ToastController} from 'ionic-angular';
+import {appApis} from '../../providers/apis';
+import {HttpServiceProvider} from '../../providers/http-service/http-service';
 
 /**
  * Generated class for the GuanzhuPage page.

@@ -1,4 +1,4 @@
-<ion-content>
+ 
 <div class="activeBox">
   <div class="actTop">
     <ul class="oul">
@@ -31,7 +31,7 @@
       </li>
     </ul>
   </div>
-  <act-navdel (recAct)="resActCla($event)"></act-navdel>
+  <act-navdel [toNav]="navIndex" (recAct)="resActCla($event)" ></act-navdel>
   <ul class="listBox">
     <li (tap)="toActDel(i.id)" *ngFor="let i of actList">
       <activity-list [actList]="i"></activity-list>
@@ -43,4 +43,4 @@
     <ion-infinite-scroll-content loadingSpinner="bubbles"
                                  loadingText="数据加载中..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-</ion-content>
+ 

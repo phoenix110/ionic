@@ -20,12 +20,13 @@ page-order {
          color: #9e894b;
          position: absolute;
          left: px2em(50px);
+         top:px2em(30px);
          @include font-dpr(16px);
        }
      }
-        .redelTit span{
-            color: #9e894b;
-            @include font-dpr(16px);
-        }
-     
+      .redelTit span{
+        color: #9e894b;
+        @include font-dpr(16px);
+      }
+
 }

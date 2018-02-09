@@ -1,12 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the AboutusPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 
 @Component({
   selector: 'page-aboutus',
@@ -18,7 +11,8 @@ export class AboutusPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AboutusPage');
   }
-
+  toBack() {
+    this.navCtrl.pop();
+  }
 }

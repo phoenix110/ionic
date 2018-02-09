@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {AppraiseSubmitPage} from "../appraise-submit/appraise-submit";
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
@@ -15,6 +15,8 @@ export class ReverseDelPage {
   order: any = {};
   constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
     this.resDelID = navParams.data.resDelID;
+
+    console.log(this.resDelID);
   }
 
   ionViewDidLoad() {
@@ -23,6 +25,10 @@ export class ReverseDelPage {
     const div = document.getElementById('reverdelBody');
     const tit = document.getElementsByClassName('redelTit')[0];
     div.style.height = document.documentElement.clientHeight - tit.clientHeight + 'px';
+  }
+  /*二维码刷新*/
+  refresh(){
+    this.getresActDetail();
   }
   // 获得对应的活动详情
   getresActDetail(){

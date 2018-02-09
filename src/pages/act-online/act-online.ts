@@ -13,6 +13,7 @@ export class ActOnlinePage {
   title ;
   activList: any = [];
   /*活动在线*/
+  onnavIndex = 1;
   actCIdOn = '';
   page: any = {
     pageIndex: 1,
@@ -21,6 +22,7 @@ export class ActOnlinePage {
   };
   /*回顾*/
   actCIdB = '';
+  backnavIndex = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams,private httpService: HttpServiceProvider) {
     this.title = navParams.data.title;
     // console.log(this.title);
@@ -31,7 +33,7 @@ export class ActOnlinePage {
     let div;
     if(this.title == 0){
        div = document.getElementById('onlineBox');
-       this.getActOnline();
+       this.getgoList();
     }else {
        div = document.getElementById('backBox');
       this.getActList();
@@ -47,28 +49,26 @@ export class ActOnlinePage {
   /*子组件传的navID*/
   resActClaOn($event) {
     this.actCIdOn = $event;
-    this.getActOnline();
-    console.log($event);
+    this.getgoList();
   }
-  // 获得活动在线列表数据
-  getActOnline(){
+  // 获得正在直播直播列表
+  getgoList(){
     this.activList = [];
     let getPageStr = {
-      'sorts':{
-        'sort':'status',
-        'order':'asc'
-      },
+      // 'sorts':{
+      //   'sort':'status',
+      //   'order':'asc'
+      // },
       'pagesize': this.page.pageSeize ,
       'pagenum': this.page.pageIndex,
       'type':'4000',
       'filters':{
-        'classifyid': this.actCIdOn,
-        'l_status':1
+        'l_status': 1,
       }
     };
     this.httpService.get(appApis.get_app_data + '?getPageStr='+ JSON.stringify(getPageStr),
       data => {
-        console.log(data);
+        console.log(data.data);
         if (data && data.data) {
           this.activList = data.data;
         }
@@ -77,6 +77,8 @@ export class ActOnlinePage {
         console.error(error);
       });
   }
+
+
   /*==========回顾===============*/
   resActClaB($event) {
     this.actCIdB = $event;
@@ -113,8 +115,8 @@ export class ActOnlinePage {
   toActDel(id) {
     this.navCtrl.push(ActDetailPage, {actid:id});
   }
-  toVideo() {
-    this.navCtrl.push(VideoPage);
+  toVideo(id) {
+    this.navCtrl.push(VideoPage,{videoId:id});
   }
   toBack() {
     this.navCtrl.pop();

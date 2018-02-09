@@ -1,13 +1,14 @@
 act-navdel {
   /*nav导航*/
   .swiper-container {
-    width:100%;
+    //width:100%;
     height: 1.12rem;
     background: #272727;
     padding:0 .24rem;
     position: relative;
+    display: flex;
     .rigM{
-      width:.32rem;
+      //width:.32rem;
       height:100%;
       position: absolute;
       top:0;
@@ -16,7 +17,9 @@ act-navdel {
     }
   }
   .swiper-slide {
+    width:auto !important;
     color:#666;
+    padding: px2em(30px) px2em(45px);
     font-weight: 600;
     text-align: center;
     @include font-dpr(16px);

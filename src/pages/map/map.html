@@ -12,13 +12,13 @@
     <div class="drag" id='map_drag'><i class="iconfont icon-ditushangla"></i></div>
     <div class="s_con">
       <ul *ngIf="mapIndex === 0">
-        <li *ngFor="let a of chosedData || data"><map-active [item]="a" [isGps]="isGps" (onGps1)="gps($event)"></map-active></li>
+        <li *ngFor="let a of chosedData || data"><map-active [item]="a" [isGps]="isGps" [lMap1] = 'map' (onGps1)="gps($event)"></map-active></li>
       </ul>
       <ul *ngIf="mapIndex === 1">
-        <li *ngFor="let p of chosedData || data"><map-place [item]="p" [isGps]="isGps" (onGps)="gps($event)"></map-place></li>
+        <li *ngFor="let p of chosedData || data"><map-place [item]="p" [isGps]="isGps"  [lMap] = 'map' (onGps)="gps($event)"></map-place></li>
       </ul>
       <ul *ngIf="mapIndex === 2">
-        <li *ngFor="let l of chosedData || data"><map-landscape [item]="l" [isGps]="isGps" (onGps2)="gps($event)"></map-landscape></li>
+        <li *ngFor="let l of chosedData || data"><map-landscape [item]="l" [isGps]="isGps" [lMap2] = 'map' (onGps2)="gps($event)"></map-landscape></li>
       </ul>
     </div>
   </div>

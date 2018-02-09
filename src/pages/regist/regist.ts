@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {AlertController, Content, Keyboard, NavController, NavParams, ToastController} from 'ionic-angular';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
 import $ from 'jquery';
 import {LoginPage} from "../login/login";
-import { NavPage } from '../nav/nav';
 
 @Component({
   selector: 'page-regist',
@@ -20,8 +19,13 @@ export class RegistPage {
   data: any = [];
   countinterval3;
   time3 = 60;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HttpServiceProvider) {
+
+  constructor(public keyboard: Keyboard, public navCtrl: NavController, private toastCtrl: ToastController, private alertCtrl: AlertController, public navParams: NavParams, private httpService: HttpServiceProvider) {
+    
   }
+
+  @ViewChild(Content) content: Content;
+
 
   ionViewDidLoad() {
     // 根据设备尺寸固定页面尺寸，解决软键盘弹出压缩页面的问题
@@ -30,13 +34,41 @@ export class RegistPage {
     const cw = document.body.clientWidth;
     page.setAttribute('style', `height:${ch}px; width:${cw}px`);
 
+
+    window.addEventListener('native.keyboardshow', keyboardShowHandler);
+
+    function keyboardShowHandler(e) {
+      console.log('Keyboard height is: ' + e.keyboardHeight);
+
+      this.content.scrollTo(0, document.body.clientHeight);
+
+
+    }
+
+    // window.addEventListener('native.keyboardhide', keyboardHideHandler);
+
+    // function keyboardHideHandler(e){
+    //   window.scrollTo(0, 0);
+    // }
+
   }
+
   // 发送验证码
-  sendCode(): void {
-    if ( this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.phoneValue ))) {
-      alert('请填写正确的手机号');
+  sendCodeR(): void {
+    if (this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test(this.phoneValue))) {
+      let toast = this.toastCtrl.create({
+        message: "请填写正确的手机号",
+        duration: 3000,
+        position: 'middle'
+      });
+
+      toast.onDidDismiss(() => {
+        console.log('Dismissed toast');
+      });
+
+      toast.present();
       console.log(this.phoneValue);
-    }else {
+    } else {
       if (this.canclick) {
         this.sCode();
       } else {
@@ -44,31 +76,42 @@ export class RegistPage {
       }
     }
   }
+
   sCode() {
     // const token = localStorage.getItem('token');
     const getStr = {
-      'mobile':this.phoneValue,
+      'mobile': this.phoneValue,
       'type': '0001'
     }
     // const getStr = '?getStr={\'mobile\':\'' + this.rPhone + '\',\'token\':\'' + token + '\',\'type\':\'0001\'}';
     this.httpService.get(appApis.get_app_code + '?getStr=' + JSON.stringify(getStr),
       data => {
         if (data.code === 0) {
-          alert(data.msg);
+          let toast = this.toastCtrl.create({
+            message: data.msg,
+            duration: 3000,
+            position: 'middle'
+          });
+
+          toast.onDidDismiss(() => {
+            console.log('Dismissed toast');
+          });
+
+          toast.present();
         }
         this.data = data;
         // $('.safeCode').html(this.data.msg);
         this.code = this.data.msg;
         let count = this.time3;
-        if ( this.code === '发送验证码成功!') {
-          this.countinterval3 = setInterval( () => {
-            $('.code').html(count + 's后重发');
+        if (this.code === '发送验证码成功!') {
+          this.countinterval3 = setInterval(() => {
+            $('.codeReg').html(count + 's后重发');
             if (count <= 0) {
               count = this.time3;
               clearInterval(this.countinterval3);
-              $('.code').html('获取');
+              $('.codeReg').html('获取');
               this.canclick = true;
-            }else {
+            } else {
               count--;
             }
           }, 1000);
@@ -81,15 +124,26 @@ export class RegistPage {
         return this.data;
       });
   }
+
   // 注册
   register(): void {
-    if ( this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test( this.phoneValue ))) {
-      alert('请填写正确的手机号');
+    if (this.phoneValue === '' || !(/^1[3|4|5|8][0-9]\d{8}$/.test(this.phoneValue))) {
+      let toast = this.toastCtrl.create({
+        message: '请填写正确的手机号',
+        duration: 3000,
+        position: 'middle'
+      });
+
+      toast.onDidDismiss(() => {
+        console.log('Dismissed toast');
+      });
+
+      toast.present();
     } else {
       const postStr = {
         'type': '0001',
         'data': {
-          'nickname':this.nicknameValue,
+          'nickname': this.nicknameValue,
           'mobile': this.phoneValue,
           'vcode': this.codeValue,
           'password': this.pwValue
@@ -101,11 +155,31 @@ export class RegistPage {
         data => {
           if (data.code) {
             this.data = data;
-            alert(data.msg);
+            let toast = this.toastCtrl.create({
+              message: data.msg,
+              duration: 3000,
+              position: 'middle'
+            });
+
+            toast.onDidDismiss(() => {
+              console.log('Dismissed toast');
+            });
+
+            toast.present();
             this.navCtrl.push(LoginPage);
             return this.data;
           } else {
-            alert(data.msg);
+            let toast = this.toastCtrl.create({
+              message: data.msg,
+              duration: 3000,
+              position: 'middle'
+            });
+
+            toast.onDidDismiss(() => {
+              console.log('Dismissed toast');
+            });
+
+            toast.present();
           }
         },
         error => {
@@ -114,10 +188,12 @@ export class RegistPage {
         });
     }
   }
-  toLogin(){
+
+  toLogin() {
     this.navCtrl.push(LoginPage);
   }
-  toback(){
+
+  toback() {
     this.navCtrl.popToRoot();
   }
 }

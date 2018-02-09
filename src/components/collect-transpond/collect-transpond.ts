@@ -1,9 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {appApis} from "../../providers/apis";
 import {HttpServiceProvider} from "../../providers/http-service/http-service";
-import {QQSDK, QQShareOptions} from "@ionic-native/qqsdk";
 import $ from 'jquery';
+import {AlertController} from 'ionic-angular';
+import {QQSDK, QQShareOptions} from "@ionic-native/qqsdk";
+
 declare let WeiboSDK:any;
+declare let Wechat;
 @Component({
   selector: 'collect-transpond',
   templateUrl: 'collect-transpond.html'
@@ -16,7 +19,7 @@ export class CollectTranspondComponent implements OnInit{
   cH:any;
   ss = false;
 
-  constructor( private httpService: HttpServiceProvider, private qq:QQSDK) {
+  constructor( private httpService: HttpServiceProvider, private alertCtrl: AlertController,private qq:QQSDK) {
 
   }
   ngOnInit(): void {
@@ -40,16 +43,32 @@ export class CollectTranspondComponent implements OnInit{
           if (data) { }},
         error => {
           if (error) {
+            console.log('error');
             if (error.code === 1) {
               this.reCollect.emit(error.msg);
-              alert('收藏成功')
+              let alert = this.alertCtrl.create({
+                title: '提示信息',
+                subTitle: '收藏成功',
+                buttons: ['确定']
+              });
+              alert.present();
             }else {
-              alert('收藏失败')
+              let alert = this.alertCtrl.create({
+                title: '提示信息',
+                subTitle: '收藏失败',
+                buttons: ['确定']
+              });
+              alert.present();
             }
           }
         });
     }else {
-      alert('请先登录')
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '请先登录',
+        buttons: ['确定']
+      });
+      alert.present();
     }
   }
   // 取消收藏
@@ -69,10 +88,20 @@ export class CollectTranspondComponent implements OnInit{
         console.log(error);
         if (error) {
           if (error.code === 1) {
-            alert('您已取消收藏');
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: '取消收藏',
+              buttons: ['确定']
+            });
+            alert.present();
             this.reCollect.emit(error.msg) ;
           }else {
-            alert('取消收藏失败');
+            let alert = this.alertCtrl.create({
+              title: '提示信息',
+              subTitle: '取消收藏失败',
+              buttons: ['确定']
+            });
+            alert.present();
 
           }
         }
@@ -84,6 +113,28 @@ export class CollectTranspondComponent implements OnInit{
     setTimeout(()=>{
       this.aH = Number.parseInt($('#share-content').css('height'));
       $('#share-content').animate({'top':`${this.cH - this.aH}px`},500);
+    });
+  }
+  /**
+   * 微信分享
+   *
+   * @param scene 0：朋友; 1:朋友圈; 2: 收藏夹;
+   */
+  weChatShare(scene){
+    Wechat.share({
+      message: {
+        title: "哇塞",
+        description: "你真帅！",// 分享给好友会显示描述
+        media: {
+          type: Wechat.Type.WEBPAGE,
+          webpageUrl: "http://www.wenmind.com/"
+        }
+      },
+      scene: scene
+    }, function () {
+      alert("分享成功");
+    }, function (reason) {
+      alert('分享失败');
     });
   }
   // qq分享
@@ -114,9 +165,19 @@ export class CollectTranspondComponent implements OnInit{
       image:'https://cordova.apache.org/static/img/pluggy.png'
     };
     WeiboSDK.shareToWeibo(function () {
-      alert('share success');
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '分享成功',
+        buttons: ['确定']
+      });
+      alert.present();
     }, function (failReason) {
-      alert(failReason);
+      let alert = this.alertCtrl.create({
+        title: '提示信息',
+        subTitle: '分享失败',
+        buttons: ['确定']
+      });
+      alert.present();
     }, args);
   }
   // 取消分享

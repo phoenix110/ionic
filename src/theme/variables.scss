@@ -140,7 +140,7 @@ $colors: (
   @include font-dpr(17px);
 }
 .logincenter{
-
+ 
   display: flex;
 flex-direction: column;
 justify-content: space-between;
@@ -148,6 +148,7 @@ align-items: center;
 }
 .logininput{
   width: px2em(847px);
+ 
   margin-top: px2em(203px);
 }
 .line{
@@ -203,11 +204,12 @@ align-items: center;
 @include font-dpr(17px);
 color: #262626;
 background: #9e894b;
-position: absolute;
-bottom: px2em(100px);
+margin-top:px2em(250px);
+
 }
 .registbottom{
   width: px2em(260px) !important;
+   
 }
 .code{
   width:px2em(381px);
@@ -217,6 +219,7 @@ bottom: px2em(100px);
   border-radius: px2em(100px);
   height: px2em(100px);
   display: flex;
+  @include font-dpr(14px);
   justify-content: center;
   align-items: center;
 }
@@ -268,4 +271,24 @@ bottom: px2em(100px);
 }
 ion-app.ios{
   font-size: 0.6rem;
+}
+.alert-ios .alert-title{
+  @include font-dpr(16px);
+}
+.alert-wrapper{
+  max-width: 600px !important;
+  min-width: auto !important;
+}
+.alert-ios .alert-message{
+  @include font-dpr(12px);
+  padding: px2em(20px) px2em(30px);
+}
+.alert-ios .alert-button{
+  @include font-dpr(12px);
+}
+.alert-md .alert-message{
+  padding: 0 24px 5px !important;
+}
+.alert-ios .alert-button{
+  height: 80px !important;
 }
